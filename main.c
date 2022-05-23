@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
 
 // [x] create
 // [x] destroy
 // [x] push
-// [ ] pop
+// [x] pop
 // [ ] is_empty
 
 #define STACK_INITIAL_CAPACITY 10
@@ -52,36 +53,31 @@ void* stack_pop(stack_t* stack) {
     }
 
     // pop item
-    void* item = stack->item_buf + stack->item_size * stack->num_items;
     stack->num_items -= 1;
+    void* item = stack->item_buf + stack->item_size * stack->num_items;
     return item;
 }
 
-int main(void) {
-    stack_t stack = stack_create(sizeof(int));
+bool stack_is_empty(const stack_t* stack) {
+    return (stack->num_items == 0);
+}
 
-    int in[] = {123, 234, 345};
+int main(void) {
+    stack_t stack = stack_create(sizeof(uint8_t));
+
+    uint8_t in[] = {12, 23, 34};
     stack_push(&stack, &in[0]);
     stack_push(&stack, &in[1]);
     stack_push(&stack, &in[2]);
 
-    int out[3];
-    out[0] = *(uint32_t*)stack_pop(&stack);
-    out[1] = *(uint32_t*)stack_pop(&stack);
-    out[2] = *(uint32_t*)stack_pop(&stack);
-
-    printf("out[0] = %d\n", out[0]);
-    printf("out[1] = %d\n", out[1]);
-    printf("out[2] = %d\n", out[2]);
-
-    // assert(*(uint32_t*)stack_pop(&stack) == 3);
-    // assert(*(uint32_t*)stack_pop(&stack) == 2);
-    // assert(*(uint32_t*)stack_pop(&stack) == 1);
-    // assert(stack_pop(&stack) == NULL);
+    assert(!stack_is_empty(&stack));
+    assert(*(uint8_t*)stack_pop(&stack) == 34);
+    assert(*(uint8_t*)stack_pop(&stack) == 23);
+    assert(*(uint8_t*)stack_pop(&stack) == 12);
+    assert(stack_pop(&stack) == NULL);
+    assert(stack_is_empty(&stack));
 
     stack_destroy(&stack);
-
-    printf("hello\n");
 
     return 0;
 }
