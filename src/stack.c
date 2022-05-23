@@ -16,6 +16,10 @@ typedef struct stack {
 static stack_t m_stacks[MAX_NUM_STACKS];
 static size_t m_top_id;
 
+void* _get_item(const stack_t* stack, size_t index) {
+    return stack->item_buf + stack->item_size * index;
+}
+
 void stack_init() {
     m_top_id = 0;
 }
@@ -50,8 +54,7 @@ void stack_push(stack_id_t stack_id, void* item) {
     }
 
     // push item
-    const size_t offset = stack->item_size * stack->num_items;
-    memcpy(stack->item_buf + offset, item, stack->item_size);
+    memcpy(_get_item(stack, stack->num_items), item, stack->item_size);
     stack->num_items += 1;
 }
 
@@ -65,8 +68,7 @@ void* stack_pop(stack_id_t stack_id) {
 
     // pop item
     stack->num_items -= 1;
-    void* item = stack->item_buf + stack->item_size * stack->num_items;
-    return item;
+    return _get_item(stack, stack->num_items);;
 }
 
 bool stack_is_empty(stack_id_t stack_id) {
