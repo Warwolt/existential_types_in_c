@@ -1,24 +1,9 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-#include <stdbool.h>
+#include "stack.h"
 
-// [x] create
-// [x] destroy
-// [x] push
-// [x] pop
-// [ ] is_empty
+#include <stdlib.h>
+#include <string.h>
 
 #define STACK_INITIAL_CAPACITY 10
-
-typedef struct stack {
-    const size_t item_size;
-    uint8_t* item_buf;
-    size_t num_items;
-    size_t capacity;
-} stack_t;
 
 stack_t stack_create(size_t item_size) {
     return (stack_t) {
@@ -60,24 +45,4 @@ void* stack_pop(stack_t* stack) {
 
 bool stack_is_empty(const stack_t* stack) {
     return (stack->num_items == 0);
-}
-
-int main(void) {
-    stack_t stack = stack_create(sizeof(uint8_t));
-
-    uint8_t in[] = {12, 23, 34};
-    stack_push(&stack, &in[0]);
-    stack_push(&stack, &in[1]);
-    stack_push(&stack, &in[2]);
-
-    assert(!stack_is_empty(&stack));
-    assert(*(uint8_t*)stack_pop(&stack) == 34);
-    assert(*(uint8_t*)stack_pop(&stack) == 23);
-    assert(*(uint8_t*)stack_pop(&stack) == 12);
-    assert(stack_pop(&stack) == NULL);
-    assert(stack_is_empty(&stack));
-
-    stack_destroy(&stack);
-
-    return 0;
 }
