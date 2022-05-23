@@ -26,7 +26,7 @@ endif()
 # Unit test executable
 #
 set(TEST_SRC
-  test/hello_tests.cpp
+  test/stack_tests.cpp
 )
 
 add_executable(tests

@@ -1,15 +1,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef struct stack {
-    const size_t item_size;
-    uint8_t* item_buf;
-    size_t num_items;
-    size_t capacity;
-} stack_t;
+typedef struct stack_id {
+    size_t val;
+} stack_id_t;
 
-stack_t stack_create(size_t item_size);
-void stack_destroy(const stack_t* stack);
-void stack_push(stack_t* stack, void* item);
-void* stack_pop(stack_t* stack);
-bool stack_is_empty(const stack_t* stack);
+void stack_init(); // initialize stack system
+stack_id_t stack_create(size_t item_size);
+void stack_destroy(stack_id_t stack_id);
+void stack_push(stack_id_t stack_id, void* item);
+void* stack_pop(stack_id_t stack_id);
+bool stack_is_empty(stack_id_t stack_id);
