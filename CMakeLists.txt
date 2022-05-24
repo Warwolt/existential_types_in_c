@@ -12,6 +12,7 @@ add_subdirectory(external/googletest)
 #
 set(SRC
     src/stack.c
+    src/uint8_stack.c
 )
 
 add_executable(${CMAKE_PROJECT_NAME} src/main.c ${SRC})
